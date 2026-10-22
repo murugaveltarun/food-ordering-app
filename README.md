@@ -19,7 +19,7 @@ A clean, modern, full-stack food ordering web application built with React, Tail
 ```
 food-ordering-app/
 ├── backend/
-│   ├── .env                  # Parameterized settings (DB credentials, JWT key, Mail settings)
+│   ├── .env.example          # Sample environment config (copy to .env and fill in your values)
 │   ├── config.py             # Configuration loader with single-line comments
 │   ├── models.py             # SQLAlchemy models (User, FoodItem, CartItem, Order, OrderItem)
 │   ├── app.py                # Main Flask application & auto-seed
@@ -37,7 +37,7 @@ food-ordering-app/
 │       └── admin_routes.py   # Analytics, stock & discount management, user management
 │
 └── frontend/
-    ├── .env                  # Parameterized backend API Base URL
+    ├── .env.example          # Sample frontend config (copy to .env)
     ├── package.json          # Node dependencies
     ├── tailwind.config.js    # Tailwind CSS v3 configuration
     ├── postcss.config.js     # PostCSS configuration
@@ -68,6 +68,20 @@ food-ordering-app/
 
 ---
 
+## 📋 Prerequisites
+
+Make sure the following are installed on your system before running the application:
+
+| Tool | Version | Purpose |
+|------|---------|---------|
+| **Python** | 3.8+ | Backend server runtime |
+| **pip** | Latest | Python package manager |
+| **Node.js** | 18+ | Frontend build & dev server |
+| **npm** | 9+ | Node package manager |
+| **MySQL** | 8.0+ | Database server |
+
+---
+
 ## 🗄️ Database Setup & Population (`database.sql`)
 
 The repository includes a complete SQL file: **`backend/database.sql`**.
@@ -76,29 +90,15 @@ This file automatically:
 1. Creates the `food_ordering_db` database.
 2. Creates all tables (`users`, `food_items`, `cart_items`, `orders`, `order_items`) with foreign keys and cascade rules.
 3. Inserts initial users with bcrypt-hashed passwords.
-4. Populates **22 gourmet food items** across 8 categories with accurate high-res food photos, prices, discounts, and inventory counts.
+4. Populates **22 gourmet food items** across 8 categories with high-res food photos, prices, discounts, and inventory counts.
 5. Populates sample orders and order items so the Admin Analytics Dashboard displays live sales metrics immediately.
 
 ### How to Run `database.sql`:
-
-#### Option A — Via MySQL Command Line (Terminal / PowerShell):
 ```bash
 cd backend
 mysql -u root -p < database.sql
 ```
 *(Enter your MySQL root password when prompted)*
-
-#### Option B — Via MySQL Workbench:
-1. Open **MySQL Workbench** and connect to your local MySQL instance.
-2. Click **File** &rarr; **Open SQL Script...** and select `backend/database.sql`.
-3. Click the ⚡ **Execute** (lightning bolt) icon to run all queries.
-4. Refresh the schema list on the left to see `food_ordering_db` populated with tables and data.
-
-#### Option C — Via phpMyAdmin / XAMPP:
-1. Open **http://localhost/phpmyadmin**.
-2. Click the **Import** tab at the top.
-3. Click **Choose File** and select `backend/database.sql`.
-4. Click **Go** at the bottom to run the import.
 
 ---
 
@@ -117,52 +117,57 @@ mysql -u root -p < database.sql
 
 When a customer places an order, an itemized order receipt is dispatched directly to their registered email address using Google SMTP.
 
-The credentials are parameterized in `backend/.env`:
-```env
-MAIL_SERVER=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USE_TLS=True
-MAIL_USERNAME=your_email@gmail.com
-MAIL_PASSWORD=your_16_character_app_password
-MAIL_DEFAULT_SENDER=your_email@gmail.com
+### How to Get Gmail App Password:
+
+1. Go to your Google Account: [https://myaccount.google.com](https://myaccount.google.com)
+2. Navigate to **Security** (left sidebar).
+3. Under **"How you sign in to Google"**, make sure **2-Step Verification** is turned **ON**.
+   - If it's off, click on it and follow the steps to enable it first.
+4. Once 2-Step Verification is enabled, go to: [https://myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords)
+5. In the **"App name"** field, type `FoodieBite` (or any name you prefer) and click **Create**.
+6. Google will generate a **16-character app password** (e.g., `abcd efgh ijkl mnop`).
+7. Copy that password (remove the spaces) and paste it as the `MAIL_PASSWORD` value in your `backend/.env` file.
+
+### Configure in `.env`:
+
+A sample environment file is already provided at `backend/.env.example`. Copy it and fill in your values:
+```bash
+cd backend
+cp .env.example .env
 ```
 
-*Note: For Gmail, use an [App Password](https://myaccount.google.com/apppasswords) rather than your standard account password.*
+Then open `backend/.env` and update the email fields:
+```env
+MAIL_USERNAME=your_gmail@gmail.com
+MAIL_PASSWORD=abcdefghijklmnop
+MAIL_DEFAULT_SENDER=your_gmail@gmail.com
+```
+
+> ⚠️ **Important**: Use the 16-character **App Password** from Step 6 above, NOT your regular Gmail password. Regular passwords will not work with SMTP.
 
 ---
 
 ## ⚙️ How to Run the Application
 
-### 1. Set Up the MySQL Database (Load `database.sql`)
-Before launching the backend, create the database and populate all tables:
-* **Option A — Terminal / PowerShell:**
-  ```bash
-  cd backend
-  mysql -u root -p < database.sql
-  ```
-* **Option B — MySQL Workbench / phpMyAdmin:**
-  Open `backend/database.sql`, select all, and click **Execute (⚡)**.
+### 1. Set Up Environment Variables
+Copy the example environment files and fill in your credentials:
+```bash
+cd backend
+cp .env.example .env
 
-This creates the `food_ordering_db` schema, builds all foreign key tables, and seeds default accounts and 22 gourmet menu items.
-
-### 2. Configure Backend Environment
-Verify or update `backend/.env` with your local MySQL credentials:
-```env
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=root
-DB_PASSWORD=your_mysql_password
-DB_NAME=food_ordering_db
+cd ../frontend
+cp .env.example .env
 ```
+Open `backend/.env` and replace the placeholder values with your MySQL password, JWT secret, and Gmail App Password.
 
-### 3. Start the Flask Backend (Port 5000)
+### 2. Start the Flask Backend (Port 5000)
 ```bash
 cd backend
 python -m pip install -r requirements.txt
 python app.py
 ```
 
-### 4. Start the React Frontend (Port 5173)
+### 3. Start the React Frontend (Port 5173)
 ```bash
 cd frontend
 npm install
