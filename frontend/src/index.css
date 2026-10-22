@@ -1,0 +1,19 @@
+/* Import Google Font Outfit for clean modern aesthetics */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+/* Tailwind base styles */
+@tailwind base;
+/* Tailwind component utility classes */
+@tailwind components;
+/* Tailwind utility classes */
+@tailwind utilities;
+
+/* Apply font family and smooth scrolling globally */
+body {
+  font-family: 'Outfit', sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
