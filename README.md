@@ -209,3 +209,36 @@ Run the included integration test suite:
 cd backend
 python test_api.py
 ```
+
+---
+
+## 📸 Application Screenshots
+
+### 1. Home / Featured Showcase
+Auto-advancing hero carousel with dynamic urgency stock badges, fast order buttons, and culinary highlights.
+![Hero & Featured](screenshots/01_hero_featured.png)
+
+### 2. Menu Catalog & Category Filters
+Interactive dish browsing with category pills, live keyword search, discount tags, and out-of-stock indicators.
+![Menu Catalog](screenshots/02_menu_catalog.png)
+
+### 3. Shopping Cart & Checkout
+Review dishes, adjust quantities, see price breakdowns with discounts, and place orders with instant email confirmation.
+![Cart & Checkout](screenshots/04_cart_checkout.png)
+
+### 4. Customer Order History
+Real-time tracking of past orders with itemized breakdowns and live delivery statuses (*Pending*, *Preparing*, *Delivered*).
+![Order History](screenshots/05_orders_page.png)
+
+### 5. Secure Authentication
+JWT-based login and registration for customers and administrators.
+![Authentication](screenshots/03_login_page.png)
+
+### 6. Admin Analytics Dashboard
+Real-time KPI metrics, revenue, total orders, customer accounts, and low-stock inventory alerts.
+![Admin Dashboard](screenshots/06_admin_dashboard.png)
+
+### 7. Admin Inventory & Stock Control
+Inline stock updates (`+5` / `-5`), discount management, featured dish toggles, and new dish creation.
+![Admin Stock Management](screenshots/07_admin_stock.png)
+
